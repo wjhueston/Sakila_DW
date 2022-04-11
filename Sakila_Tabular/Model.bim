@@ -1,0 +1,795 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1500,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/localhost;Sakila_DW_WH",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "localhost",
+            "database": "Sakila_DW_WH"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "credential": {
+          "AuthenticationKind": "Windows",
+          "kind": "SQL",
+          "path": "localhost;Sakila_DW_WH",
+          "Username": "bitdw\\bitstudent",
+          "EncryptConnection": false
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "Rentals",
+        "columns": [
+          {
+            "name": "RentalKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "RentalKey"
+          },
+          {
+            "name": "Rental_id",
+            "dataType": "int64",
+            "sourceColumn": "Rental_id"
+          },
+          {
+            "name": "Rental Date Key",
+            "dataType": "int64",
+            "sourceColumn": "RentalDateKey"
+          },
+          {
+            "name": "Return Date Key",
+            "dataType": "int64",
+            "sourceColumn": "ReturnDateKey"
+          },
+          {
+            "name": "Rental Duration",
+            "dataType": "int64",
+            "sourceColumn": "RentalDuration"
+          },
+          {
+            "name": "Loan Period",
+            "dataType": "int64",
+            "sourceColumn": "LoanPeriod"
+          },
+          {
+            "name": "Rental Rate",
+            "dataType": "double",
+            "sourceColumn": "RentalRate"
+          },
+          {
+            "name": "FilmKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "FilmKey"
+          },
+          {
+            "name": "CustomerKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CustomerKey"
+          },
+          {
+            "name": "CustomerHistoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CustomerHistoryKey"
+          },
+          {
+            "name": "StaffKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StaffKey"
+          },
+          {
+            "name": "UnitLanguageKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "UnitLanguageKey"
+          },
+          {
+            "name": "LanguageOfOriginKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "LanguageOfOriginKey"
+          },
+          {
+            "name": "CategoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CategoryKey"
+          },
+          {
+            "name": "StoreKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StoreKey"
+          },
+          {
+            "name": "PaymentAmount",
+            "dataType": "double",
+            "sourceColumn": "PaymentAmount"
+          },
+          {
+            "type": "calculated",
+            "name": "Was Late",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": " if(Rentals[Rental Duration]>Rentals[Loan Period],1,0)"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_FactRental = Source{[Schema=\"dbo\",Item=\"FactRental\"]}[Data]",
+                "in",
+                "    dbo_FactRental"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Categories",
+        "columns": [
+          {
+            "name": "CategoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CategoryKey"
+          },
+          {
+            "name": "Category_id",
+            "dataType": "int64",
+            "sourceColumn": "Category_id"
+          },
+          {
+            "name": "Category Name",
+            "dataType": "string",
+            "sourceColumn": "CategoryName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_DimCategory = Source{[Schema=\"dbo\",Item=\"DimCategory\"]}[Data]",
+                "in",
+                "    dbo_DimCategory"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Customers",
+        "columns": [
+          {
+            "name": "CustomerKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CustomerKey"
+          },
+          {
+            "name": "Customer_id",
+            "dataType": "int64",
+            "sourceColumn": "Customer_id"
+          },
+          {
+            "name": "First Name",
+            "dataType": "string",
+            "sourceColumn": "FirstName"
+          },
+          {
+            "name": "Last Name",
+            "dataType": "string",
+            "sourceColumn": "LastName"
+          },
+          {
+            "name": "Email Address",
+            "dataType": "string",
+            "sourceColumn": "EmailAddress"
+          },
+          {
+            "name": "Is Active",
+            "dataType": "boolean",
+            "sourceColumn": "IsActive"
+          },
+          {
+            "name": "Address Line One",
+            "dataType": "string",
+            "sourceColumn": "AddressLineOne"
+          },
+          {
+            "name": "Address Line Two",
+            "dataType": "string",
+            "sourceColumn": "AddressLineTwo"
+          },
+          {
+            "name": "District",
+            "dataType": "string",
+            "sourceColumn": "District"
+          },
+          {
+            "name": "City",
+            "dataType": "string",
+            "sourceColumn": "City"
+          },
+          {
+            "name": "Postal Code",
+            "dataType": "string",
+            "sourceColumn": "PostalCode"
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_DimCustomer = Source{[Schema=\"dbo\",Item=\"DimCustomer\"]}[Data]",
+                "in",
+                "    dbo_DimCustomer"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "CustomerHistory",
+        "columns": [
+          {
+            "name": "CustomerHistoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CustomerHistoryKey"
+          },
+          {
+            "name": "Customer_id",
+            "dataType": "int64",
+            "sourceColumn": "Customer_id"
+          },
+          {
+            "name": "Historical Address Line One",
+            "dataType": "string",
+            "sourceColumn": "HistoricalAddressLineOne"
+          },
+          {
+            "name": "Historical Address Line Two",
+            "dataType": "string",
+            "sourceColumn": "HistoricalAddressLineTwo"
+          },
+          {
+            "name": "Historical District",
+            "dataType": "string",
+            "sourceColumn": "HistoricalDistrict"
+          },
+          {
+            "name": "Historical City",
+            "dataType": "string",
+            "sourceColumn": "HistoricalCity"
+          },
+          {
+            "name": "Historical Postal Code",
+            "dataType": "string",
+            "sourceColumn": "HistoricalPostalCode"
+          },
+          {
+            "name": "Historical Country",
+            "dataType": "string",
+            "sourceColumn": "HistoricalCountry"
+          },
+          {
+            "name": "Start Date",
+            "dataType": "dateTime",
+            "sourceColumn": "StartDate"
+          },
+          {
+            "name": "End Date",
+            "dataType": "dateTime",
+            "sourceColumn": "EndDate"
+          },
+          {
+            "name": "Is Active",
+            "dataType": "boolean",
+            "sourceColumn": "IsActive"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_DimCustomerHistory = Source{[Schema=\"dbo\",Item=\"DimCustomerHistory\"]}[Data]",
+                "in",
+                "    dbo_DimCustomerHistory"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dates",
+        "dataCategory": "Time",
+        "columns": [
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "DateKey"
+          },
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "isKey": true,
+            "sourceColumn": "Date",
+            "formatString": "Short Date",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"DateTimeShortDatePattern\" />"
+              }
+            ]
+          },
+          {
+            "name": "Month Number",
+            "dataType": "int64",
+            "sourceColumn": "MonthNumber"
+          },
+          {
+            "name": "Month Name",
+            "dataType": "string",
+            "sourceColumn": "MonthName"
+          },
+          {
+            "name": "Day Of Month",
+            "dataType": "int64",
+            "sourceColumn": "DayOfMonth"
+          },
+          {
+            "name": "Week Number",
+            "dataType": "int64",
+            "sourceColumn": "WeekNumber"
+          },
+          {
+            "name": "Day Of Week",
+            "dataType": "string",
+            "sourceColumn": "DayOfWeek"
+          },
+          {
+            "name": "Quarter",
+            "dataType": "int64",
+            "sourceColumn": "Quarter"
+          },
+          {
+            "name": "Year",
+            "dataType": "double",
+            "sourceColumn": "Year"
+          },
+          {
+            "name": "Day Of Year",
+            "dataType": "int64",
+            "sourceColumn": "DayOfYear"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_DimDate = Source{[Schema=\"dbo\",Item=\"DimDate\"]}[Data],",
+                "    #\"Filtered Rows\" = Table.SelectRows(dbo_DimDate, each [DateKey] <> 19000101 and [DateKey] <> 99991231),",
+                "    #\"Filtered Rows1\" = Table.SelectRows(#\"Filtered Rows\", each [Date] <= Date.From(DateTime.LocalNow()))",
+                "in",
+                "    #\"Filtered Rows1\""
+              ]
+            }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Calendar",
+            "levels": [
+              {
+                "name": "Year",
+                "ordinal": 0,
+                "column": "Year"
+              },
+              {
+                "name": "Month Number",
+                "ordinal": 1,
+                "column": "Month Number"
+              },
+              {
+                "name": "Day Of Month",
+                "ordinal": 2,
+                "column": "Day Of Month"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Films",
+        "columns": [
+          {
+            "name": "FilmKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "FilmKey"
+          },
+          {
+            "name": "Film_id",
+            "dataType": "int64",
+            "sourceColumn": "Film_id"
+          },
+          {
+            "name": "Title",
+            "dataType": "string",
+            "sourceColumn": "Title"
+          },
+          {
+            "name": "Film Description",
+            "dataType": "string",
+            "sourceColumn": "FilmDescription"
+          },
+          {
+            "name": "Year Of Release",
+            "dataType": "double",
+            "sourceColumn": "YearOfRelease"
+          },
+          {
+            "name": "Rating",
+            "dataType": "string",
+            "sourceColumn": "Rating"
+          },
+          {
+            "name": "Special Features",
+            "dataType": "string",
+            "sourceColumn": "SpecialFeatures"
+          },
+          {
+            "name": "Run Time",
+            "dataType": "int64",
+            "sourceColumn": "RunTime"
+          },
+          {
+            "name": "Cost Of Replacement",
+            "dataType": "double",
+            "sourceColumn": "CostOfReplacement"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_DimFilm = Source{[Schema=\"dbo\",Item=\"DimFilm\"]}[Data]",
+                "in",
+                "    dbo_DimFilm"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Languages",
+        "columns": [
+          {
+            "name": "LanguageKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "LanguageKey"
+          },
+          {
+            "name": "Language_id",
+            "dataType": "int64",
+            "sourceColumn": "Language_id"
+          },
+          {
+            "name": "Language Name",
+            "dataType": "string",
+            "sourceColumn": "LanguageName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_DimLanguage = Source{[Schema=\"dbo\",Item=\"DimLanguage\"]}[Data]",
+                "in",
+                "    dbo_DimLanguage"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Staff",
+        "columns": [
+          {
+            "name": "StaffKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StaffKey"
+          },
+          {
+            "name": "Staff_id",
+            "dataType": "int64",
+            "sourceColumn": "Staff_id"
+          },
+          {
+            "name": "First Name",
+            "dataType": "string",
+            "sourceColumn": "FirstName"
+          },
+          {
+            "name": "Last Name",
+            "dataType": "string",
+            "sourceColumn": "LastName"
+          },
+          {
+            "name": "Email Address",
+            "dataType": "string",
+            "sourceColumn": "EmailAddress"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_DimStaff = Source{[Schema=\"dbo\",Item=\"DimStaff\"]}[Data]",
+                "in",
+                "    dbo_DimStaff"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Stores",
+        "columns": [
+          {
+            "name": "StoreKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StoreKey"
+          },
+          {
+            "name": "Store_id",
+            "dataType": "int64",
+            "sourceColumn": "Store_id"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_DimStore = Source{[Schema=\"dbo\",Item=\"DimStore\"]}[Data]",
+                "in",
+                "    dbo_DimStore"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rental Measures",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Value",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Value]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": " {blank()}"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Payments",
+            "expression": " sum(Rentals[PaymentAmount])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Payments YTD",
+            "expression": "TOTALYTD([Total Payments],Dates[Date])"
+          },
+          {
+            "name": "Payments MTD",
+            "expression": "TOTALMTD([Total Payments],Dates[Date])"
+          },
+          {
+            "name": "Average Payment",
+            "expression": "AVERAGE(Rentals[PaymentAmount])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Total Rental Count",
+            "expression": "count(Rentals[RentalKey])"
+          },
+          {
+            "name": "Average Items per Rental",
+            "expression": " round([Total Rental Count]/DISTINCTCOUNT(Rentals[Rental Date Key]),0)"
+          },
+          {
+            "name": "Average Rental Duration",
+            "expression": " ROUND(AVERAGE(Rentals[Rental Duration]),0)"
+          },
+          {
+            "name": "Total Late Rentals",
+            "expression": " Sum(Rentals[Was Late])"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "5a5c28f2-a579-4748-9de7-d8735897e819",
+        "fromTable": "Rentals",
+        "fromColumn": "Return Date Key",
+        "toTable": "Dates",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "0312a82d-5d97-4c87-ab94-a5e1e0c040b0",
+        "fromTable": "Rentals",
+        "fromColumn": "LanguageOfOriginKey",
+        "toTable": "Languages",
+        "toColumn": "LanguageKey",
+        "isActive": false
+      },
+      {
+        "name": "8deaeb23-493e-4bc0-b22f-74a189b3c690",
+        "fromTable": "Rentals",
+        "fromColumn": "CategoryKey",
+        "toTable": "Categories",
+        "toColumn": "CategoryKey"
+      },
+      {
+        "name": "60e11282-088e-41ef-94d0-1bf932c62d99",
+        "fromTable": "Rentals",
+        "fromColumn": "CustomerKey",
+        "toTable": "Customers",
+        "toColumn": "CustomerKey"
+      },
+      {
+        "name": "3cceb82c-865c-462c-bab1-fb8620499211",
+        "fromTable": "Rentals",
+        "fromColumn": "CustomerHistoryKey",
+        "toTable": "CustomerHistory",
+        "toColumn": "CustomerHistoryKey"
+      },
+      {
+        "name": "6321893d-45a2-41c7-b457-562b33354201",
+        "fromTable": "Rentals",
+        "fromColumn": "Rental Date Key",
+        "toTable": "Dates",
+        "toColumn": "DateKey"
+      },
+      {
+        "name": "f462cf22-a926-4b4b-8112-24ee87c6d0f1",
+        "fromTable": "Rentals",
+        "fromColumn": "FilmKey",
+        "toTable": "Films",
+        "toColumn": "FilmKey"
+      },
+      {
+        "name": "ceac00d8-5774-4e9c-9a5a-fbb7bf4dbe7b",
+        "fromTable": "Rentals",
+        "fromColumn": "UnitLanguageKey",
+        "toTable": "Languages",
+        "toColumn": "LanguageKey"
+      },
+      {
+        "name": "10003a57-ac45-473d-b57d-adb6ecfdf68e",
+        "fromTable": "Rentals",
+        "fromColumn": "StaffKey",
+        "toTable": "Staff",
+        "toColumn": "StaffKey"
+      },
+      {
+        "name": "152ed8b0-95db-491e-8022-fa2492ff642a",
+        "fromTable": "Rentals",
+        "fromColumn": "StoreKey",
+        "toTable": "Stores",
+        "toColumn": "StoreKey"
+      }
+    ],
+    "roles": [
+      {
+        "name": "ProcessCube",
+        "modelPermission": "refresh",
+        "members": [
+          {
+            "memberName": "BITDW\\svc_SQLAgent",
+            "memberId": "S-1-5-21-2754051842-109426875-2868356223-2104"
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "600"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}
