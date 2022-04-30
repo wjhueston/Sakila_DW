@@ -11,15 +11,14 @@
           "protocol": "tds",
           "address": {
             "server": "localhost",
-            "database": "Sakila_DW_WH"
+            "database": "Sakila_DW_WH_DEV"
           },
           "authentication": null,
           "query": null
         },
+        "options": {},
         "credential": {
           "AuthenticationKind": "Windows",
-          "kind": "SQL",
-          "path": "localhost;Sakila_DW_WH",
           "Username": "bitdw\\bitstudent",
           "EncryptConnection": false
         }
@@ -694,6 +693,80 @@
           {
             "name": "Total Late Rentals",
             "expression": " Sum(Rentals[Was Late])"
+          },
+          {
+            "name": "Payments QTD",
+            "expression": "TOTALQTD([Total Payments],Dates[Date])"
+          },
+          {
+            "name": "Films in Inventory",
+            "expression": " SUM(Inventory[UnitsAvailable])"
+          },
+          {
+            "name": "Average Films in Inventory",
+            "expression": " AVERAGE(Inventory[UnitsAvailable])"
+          }
+        ]
+      },
+      {
+        "name": "Inventory",
+        "columns": [
+          {
+            "name": "InventoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "InventoryKey"
+          },
+          {
+            "name": "UnitsAvailable",
+            "dataType": "int64",
+            "sourceColumn": "UnitsAvailable"
+          },
+          {
+            "name": "FilmKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "FilmKey"
+          },
+          {
+            "name": "CategoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CategoryKey"
+          },
+          {
+            "name": "LanguageKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "LanguageKey"
+          },
+          {
+            "name": "InventoryDateKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "InventoryDateKey"
+          },
+          {
+            "name": "StoreKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StoreKey"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;Sakila_DW_WH\",",
+                "    dbo_FactInventory = Source{[Schema=\"dbo\",Item=\"FactInventory\"]}[Data]",
+                "in",
+                "    dbo_FactInventory"
+              ]
+            }
           }
         ]
       }
@@ -767,6 +840,41 @@
       {
         "name": "152ed8b0-95db-491e-8022-fa2492ff642a",
         "fromTable": "Rentals",
+        "fromColumn": "StoreKey",
+        "toTable": "Stores",
+        "toColumn": "StoreKey"
+      },
+      {
+        "name": "1478c004-eb3d-41fd-b907-e4292e9209f1",
+        "fromTable": "Inventory",
+        "fromColumn": "FilmKey",
+        "toTable": "Films",
+        "toColumn": "FilmKey"
+      },
+      {
+        "name": "eee13da2-77db-4b14-b595-5ebcff8ff46a",
+        "fromTable": "Inventory",
+        "fromColumn": "CategoryKey",
+        "toTable": "Categories",
+        "toColumn": "CategoryKey"
+      },
+      {
+        "name": "5f13f41c-e78d-4974-aed9-b050a7ed0cef",
+        "fromTable": "Inventory",
+        "fromColumn": "LanguageKey",
+        "toTable": "Languages",
+        "toColumn": "LanguageKey"
+      },
+      {
+        "name": "46798f61-3db4-4699-be5b-efae4aba326d",
+        "fromTable": "Inventory",
+        "fromColumn": "InventoryDateKey",
+        "toTable": "Dates",
+        "toColumn": "DateKey"
+      },
+      {
+        "name": "cfbbb363-c632-4635-b5fc-63bbc52f1a67",
+        "fromTable": "Inventory",
         "fromColumn": "StoreKey",
         "toTable": "Stores",
         "toColumn": "StoreKey"
